@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Logging;
 using WebApi.Logic;
 using WebApi.Repo;
 
@@ -9,8 +10,11 @@ namespace WebApi
 {
     public class Startup
     {
-        public Startup(IConfiguration configuration)
+        private readonly ILogger<Startup> _logger;
+
+        public Startup(IConfiguration configuration, ILogger<Startup> logger)
         {
+            _logger = logger;
             Configuration = configuration;
         }
 
@@ -32,16 +36,18 @@ namespace WebApi
                         .AllowCredentials();
                     });
             });
+            
             services.AddMvc();         
-
+            
             services.AddSingleton<IExerciseRepo, ExerciseRepo>();
             services.AddScoped<IExerciseLogic, ExerciseLogic>();
             services.AddSingleton<IRandomSeeder, RandomSeeder>();
             services.AddScoped<IRandomGenerator, RandomGenerator>();
+            this._logger.LogInformation("Configured Services.");
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
-        public void Configure(IApplicationBuilder app, IHostingEnvironment env)
+        public void Configure(IApplicationBuilder app, IHostingEnvironment env, ILoggerFactory loggerFactory)
         {
             if (env.IsDevelopment())
             {
@@ -49,8 +55,12 @@ namespace WebApi
             }
 
             app.UseCors("AllowAll");
+
+            app.ConfigExceptionHandler(loggerFactory.CreateLogger("UnhandledExceptionHandler"));
+
             app.UseMvc();
             
         }
+
     }
 }
