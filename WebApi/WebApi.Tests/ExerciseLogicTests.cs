@@ -30,7 +30,7 @@ namespace WebApi.Tests
             var ex = _sut.Start();
 
             Assert.True(ex.Level == ExerciseLevel.Beginner);
-            Assert.True(ex.TimeFrameSeconds == 20);
+            Assert.True(ex.TimeFrameSeconds == Constants.InitialTimeFrameSeconds);
         }
 
         [Fact]

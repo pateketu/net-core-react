@@ -3,15 +3,15 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Newtonsoft.Json.Converters;
 
 namespace WebApi.Model
 {
     public class Exercise
     {
         public Guid Id { get; set; }
-        [JsonIgnore]
+        [JsonConverter(typeof(StringEnumConverter))]
         public ExerciseLevel Level { get; set; }
-        public string ExerciseLevel => this.Level.ToString();
         public int A { get; set; }
         public int B { get; set; }
         public int TimeFrameSeconds { get; set; }

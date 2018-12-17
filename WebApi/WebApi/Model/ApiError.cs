@@ -1,6 +1,6 @@
 ﻿using Newtonsoft.Json;
 
-namespace WebApi
+namespace WebApi.Model
 {
     public class ApiError   
     {

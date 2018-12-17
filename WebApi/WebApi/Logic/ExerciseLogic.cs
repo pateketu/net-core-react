@@ -1,7 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 using WebApi.Model;
 using WebApi.Repo;
 
@@ -11,7 +8,7 @@ namespace WebApi.Logic
     {
         private readonly IExerciseRepo _repo;
         private readonly IRandomGenerator _randomGenerator;
-        private const int InitialTimeFrameSeconds = 20;
+        
         public ExerciseLogic(IExerciseRepo repo, IRandomGenerator randomGenerator)
         {
             this._repo = repo;
@@ -22,7 +19,7 @@ namespace WebApi.Logic
         {
             var ex = Exercise.CreateExercise(_randomGenerator.Next(),
                                              _randomGenerator.Next(),
-                                             InitialTimeFrameSeconds);
+                                             Constants.InitialTimeFrameSeconds);
             this._repo.Add(ex);
             return ex;
         }
