@@ -1,6 +1,4 @@
 ## AddItUp
-Example of Refactoring non-unit testable code into unit testable and applying SOLID principle to refactored code
-
 The objective of this exercise is to create a simple website that offers games to train your brain.
 The 1st game to implement is AddItUp - a simple addition online game.
 
