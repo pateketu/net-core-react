@@ -1,0 +1,33 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Answer  Component Renders expected html mark-up 1`] = `
+<div>
+  <div>
+    <div
+      className="equation"
+    >
+      <h4>
+        1
+      </h4>
+      <h4>
+        +
+      </h4>
+      <h4>
+        2
+      </h4>
+      <div>
+        <input
+          onChange={[Function]}
+          type="text"
+        />
+      </div>
+    </div>
+  </div>
+  <button
+    disabled={false}
+    onClick={[Function]}
+  >
+    Asnwer
+  </button>
+</div>
+`;

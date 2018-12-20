@@ -1,19 +1,14 @@
 import * as React from 'react';
+import IAnswerProps from './IAnswerProps';
 
-interface IAnswerInputProps {
-    a: number;
-    b: number;
-    onAnswerChanged: (answer: number) => void;
-}
-
-export const AnswerInput: React.SFC<IAnswerInputProps> = (props) => {
+export const AnswerInput: React.SFC<IAnswerProps> = (props) => {
     return <div>
                 <div className="equation">
                     <h4>{props.a}</h4>
                     <h4>+</h4>
                     <h4>{props.b}</h4>
                     <div><input type="text" onChange={(input) =>
-                            props.onAnswerChanged(Number(input.target.value))
+                            props.onAnswer(Number(input.target.value))
                         }/></div>
                 </div>
             </div>;
