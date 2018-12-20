@@ -24,7 +24,7 @@ exports[`Answer  Component Renders expected html mark-up 1`] = `
     </div>
   </div>
   <button
-    disabled={false}
+    disabled={true}
     onClick={[Function]}
   >
     Asnwer

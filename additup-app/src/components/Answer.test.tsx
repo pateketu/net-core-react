@@ -28,7 +28,7 @@ describe('Answer  Component', () => {
         const wrapper = mount(<Answer a={1} b={2}
             onAnswer={(answer: number ) => { result = answer; }}></Answer>);
 
-        wrapper.find('input').simulate('change', {target: {value}});
+        wrapper.find('input').simulate('change', {target: {value: String(value)}});
         wrapper.find('button').simulate('click');
 
         expect(result).toBe(value);

@@ -8,7 +8,10 @@ export const AnswerInput: React.SFC<IAnswerProps> = (props) => {
                     <h4>+</h4>
                     <h4>{props.b}</h4>
                     <div><input type="text" onChange={(input) =>
-                            props.onAnswer(Number(input.target.value))
+                             props.onAnswer(
+                                input.target.value.trim().length > 0 ?
+                                    Number(input.target.value) :
+                                    NaN)
                         }/></div>
                 </div>
             </div>;

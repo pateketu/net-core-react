@@ -17,7 +17,7 @@ describe('Answer Input Component', () => {
         const wrapper = shallow(<AnswerInput a={1} b={2}
             onAnswer={(answer: number ) => { result = answer; }}></AnswerInput>);
 
-        wrapper.find('input').simulate('change', {target: {value}});
+        wrapper.find('input').simulate('change', {target: {value: String(value)}});
 
         expect(result).toBe(value);
     });
