@@ -1,28 +1,27 @@
 import React from 'react';
 import App from './App';
-import {mount} from 'enzyme';
+import {mount, shallow} from 'enzyme';
 import * as gameService from './domain/gameService';
 import { Promise, Deferred } from 'q';
 import Game from './domain/game';
 import toJson from 'enzyme-to-json';
 
-// jest.useFakeTimers();
 describe('Game App', () => {
-  it('Shows game equation', (done) => {
+  it('Renders game', (done) => {
       const mockStart = jest.spyOn(gameService, 'start');
-      const promise = Promise((r) => r(new Game()));
+      const fakeGame = {...new Game(), a: 6, b: 6, timeFrameSeconds: 20, level: 'Beginner'};
+
+      const promise = Promise((r) => r(fakeGame));
       mockStart.mockReturnValue(promise);
 
       const wrapper = mount(<App/>);
-      // jest.advanceTimersByTime(1000);
+
       promise.then(() => {
-        wrapper.update();
-        console.log(wrapper.html());
-        // setTimeout(() => {
-        //   // expect(toJson(wrapper, {noKey: true})).toMatchSnapshot();
-        //   console.log(wrapper.debug());
-        //   done();
-        // }, 2000);
-      });
+         setImmediate(() => {
+          wrapper.update();
+          expect(toJson(wrapper, {noKey: true})).toMatchSnapshot();
+          done();
+        });
+      }, () => {/*Reject*/});
   });
 });

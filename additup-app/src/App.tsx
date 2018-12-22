@@ -18,16 +18,16 @@ class App extends Component<any, IAppState> {
   }
 
   public async componentDidMount() {
-    const game = await gameService.start();
-    this.setState({game});
+   const game = await gameService.start();
+   this.setState({game});
   }
 
   public render() {
     if (!this.state.game) {
-      return <React.Fragment>
+      return <div>
               {this.header()}
               <div>Loading...</div>
-          </React.Fragment>;
+          </div>;
     }
     return (
       <div className="App">
@@ -52,6 +52,7 @@ class App extends Component<any, IAppState> {
           }}> </Answer>
 
       </Timer>;
+
   }
 
   private reStartButton() {
