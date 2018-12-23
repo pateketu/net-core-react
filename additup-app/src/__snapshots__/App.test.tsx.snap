@@ -1,5 +1,71 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
+exports[`Game App Re-start Clicking on Re-start button, re-renders the game 1`] = `
+<App>
+  <div
+    className="App"
+  >
+    <h1>
+      Add It Up!
+    </h1>
+    <Timer
+      onExpired={[Function]}
+      seconds={1}
+    >
+      <div>
+        1
+         Seconds Remaining
+      </div>
+      <b>
+        Your current level is 
+        Beginner
+      </b>
+      <Answer
+        a={6}
+        b={6}
+        onAnswer={[Function]}
+      >
+        <div>
+          <AnswerInput
+            a={6}
+            b={6}
+            onAnswer={[Function]}
+          >
+            <div>
+              <div
+                className="equation"
+              >
+                <h4>
+                  6
+                </h4>
+                <h4>
+                  +
+                </h4>
+                <h4>
+                  6
+                </h4>
+                <div>
+                  <input
+                    onChange={[Function]}
+                    type="text"
+                  />
+                </div>
+              </div>
+            </div>
+          </AnswerInput>
+          <button
+            disabled={true}
+            onClick={[Function]}
+          >
+            Asnwer
+          </button>
+        </div>
+      </Answer>
+    </Timer>
+  </div>
+</App>
+`;
+
 exports[`Game App Renders game 1`] = `
 <App>
   <div
@@ -10,10 +76,10 @@ exports[`Game App Renders game 1`] = `
     </h1>
     <Timer
       onExpired={[Function]}
-      seconds={20}
+      seconds={1}
     >
       <div>
-        20
+        1
          Seconds Remaining
       </div>
       <b>
