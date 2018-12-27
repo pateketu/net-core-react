@@ -30,3 +30,14 @@
     transform: rotate(360deg);
   }
 }
+
+.equation{
+  display: flex;
+  flex-wrap: wrap;
+  align-content: space-between;
+  justify-content: center;
+}
+
+.equation > div{
+  padding:8px;
+}

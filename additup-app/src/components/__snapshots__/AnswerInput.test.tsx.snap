@@ -5,15 +5,18 @@ exports[`Answer Input Component Renders expected html mark-up 1`] = `
   <div
     className="equation"
   >
-    <h4>
+    <div>
       1
-    </h4>
-    <h4>
+    </div>
+    <div>
       +
-    </h4>
-    <h4>
+    </div>
+    <div>
       2
-    </h4>
+    </div>
+    <div>
+      =
+    </div>
     <div>
       <input
         onChange={[Function]}

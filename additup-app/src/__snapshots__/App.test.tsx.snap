@@ -25,7 +25,9 @@ exports[`Game App Re-start Clicking on Re-start button, re-renders the game 1`] 
         b={6}
         onAnswer={[Function]}
       >
-        <div>
+        <form
+          onSubmit={[Function]}
+        >
           <AnswerInput
             a={6}
             b={6}
@@ -35,15 +37,18 @@ exports[`Game App Re-start Clicking on Re-start button, re-renders the game 1`] 
               <div
                 className="equation"
               >
-                <h4>
+                <div>
                   6
-                </h4>
-                <h4>
+                </div>
+                <div>
                   +
-                </h4>
-                <h4>
+                </div>
+                <div>
                   6
-                </h4>
+                </div>
+                <div>
+                  =
+                </div>
                 <div>
                   <input
                     onChange={[Function]}
@@ -56,10 +61,11 @@ exports[`Game App Re-start Clicking on Re-start button, re-renders the game 1`] 
           <button
             disabled={true}
             onClick={[Function]}
+            type="submit"
           >
             Asnwer
           </button>
-        </div>
+        </form>
       </Answer>
     </Timer>
   </div>
@@ -91,7 +97,9 @@ exports[`Game App Renders game 1`] = `
         b={6}
         onAnswer={[Function]}
       >
-        <div>
+        <form
+          onSubmit={[Function]}
+        >
           <AnswerInput
             a={6}
             b={6}
@@ -101,15 +109,18 @@ exports[`Game App Renders game 1`] = `
               <div
                 className="equation"
               >
-                <h4>
+                <div>
                   6
-                </h4>
-                <h4>
+                </div>
+                <div>
                   +
-                </h4>
-                <h4>
+                </div>
+                <div>
                   6
-                </h4>
+                </div>
+                <div>
+                  =
+                </div>
                 <div>
                   <input
                     onChange={[Function]}
@@ -122,10 +133,11 @@ exports[`Game App Renders game 1`] = `
           <button
             disabled={true}
             onClick={[Function]}
+            type="submit"
           >
             Asnwer
           </button>
-        </div>
+        </form>
       </Answer>
     </Timer>
   </div>

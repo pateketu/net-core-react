@@ -4,9 +4,10 @@ import IAnswerProps from './IAnswerProps';
 export const AnswerInput: React.SFC<IAnswerProps> = (props) => {
     return <div>
                 <div className="equation">
-                    <h4>{props.a}</h4>
-                    <h4>+</h4>
-                    <h4>{props.b}</h4>
+                    <div>{props.a}</div>
+                    <div>+</div>
+                    <div>{props.b}</div>
+                    <div>=</div>
                     <div><input type="text"
                             ref={(input) => input && input.focus() }
                             onChange={(input) =>
