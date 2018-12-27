@@ -1,6 +1,6 @@
 
 import Game from './game';
-import { Promise, async } from 'q';
+import { Promise } from 'q';
 import { GameResult } from './gameResult';
 
 export async function start() {

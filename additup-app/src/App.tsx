@@ -36,6 +36,8 @@ class App extends Component<any, IAppState> {
         {this.header()}
         {this.loading()
             || this.expired()
+            || this.finished()
+            || this.inCorrectAnswer()
             || this.equation(this.state.game)}
       </div>
     );
@@ -51,6 +53,20 @@ class App extends Component<any, IAppState> {
 
   private expired() {
     return this.state.expired && this.reStartButton();
+  }
+
+  private finished() {
+    return this.state.finished && <React.Fragment>
+                                      <div>Game Finished...</div>
+                                      {this.reStartButton()}
+                                  </React.Fragment>;
+  }
+
+  private inCorrectAnswer() {
+    return this.state.inCorrect && <React.Fragment>
+                                          <div>Incorrect Answer...</div>
+                                          {this.reStartButton()}
+                                    </React.Fragment>;
   }
 
   private equation(game: Game | undefined) {
@@ -73,10 +89,11 @@ class App extends Component<any, IAppState> {
   }
 
   private onAnswer = async (answer: number) => {
-
     this.setState({gameLoaded: false});
 
     const result = await gameService.answer(answer);
+
+    this.setState({gameLoaded: true});
 
     if (result.allLevelsFinished) {
         this.setState({finished: true});
