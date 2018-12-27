@@ -81,7 +81,7 @@ class App extends Component<any, IAppState> {
   }
 
   private reStartButton() {
-    return <div><button onClick={() => this.setState({expired: false})}>Re-Start</button></div>;
+    return <div><button onClick={this.reStart}>Re-Start</button></div>;
   }
 
   private onExpired = () => {
@@ -91,7 +91,10 @@ class App extends Component<any, IAppState> {
   private onAnswer = async (answer: number) => {
     this.setState({gameLoaded: false});
 
-    const result = await gameService.answer(answer);
+    if (!this.state.game) {
+      throw new Error('Game not set on State!');
+    }
+    const result = await gameService.answer(this.state.game.id, answer);
 
     this.setState({gameLoaded: true});
 
@@ -102,6 +105,18 @@ class App extends Component<any, IAppState> {
       } else if (result.game) {
         this.setState({game: result.game});
       }
+  }
+
+   private reStart = async () => {
+      this.setState({gameLoaded: false});
+      const game = await gameService.start();
+      this.setState({
+          expired: false,
+          finished: false,
+          game,
+          gameLoaded: true,
+          inCorrect: false,
+      });
   }
 }
 

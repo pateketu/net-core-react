@@ -11,9 +11,10 @@ describe('Game App', () => {
   // tslint:disable-next-line:no-empty
   let gameStartPromise: Promise<Game> = Promise<Game>(() => {});
   let wrapper: any = null;
+  let fakeGame: Game;
   beforeEach(() => {
       const mockStart = jest.spyOn(gameService, 'start');
-      const fakeGame = {...new Game(), a: 6, b: 6, timeFrameSeconds: 1, level: 'Beginner'};
+      fakeGame = {...new Game(), id: 'test', a: 6, b: 6, timeFrameSeconds: 1, level: 'Beginner'};
 
       gameStartPromise = Promise((r) => r(fakeGame));
       mockStart.mockReturnValue(gameStartPromise);
@@ -25,6 +26,7 @@ describe('Game App', () => {
 
       await gameStartPromise;
       wrapper.update();
+
       expect(toJson(wrapper, {noKey: true})).toMatchSnapshot();
   });
 
@@ -60,6 +62,7 @@ describe('Game App', () => {
   describe('Answer', () => {
       // tslint:disable-next-line:no-empty
       let answerPromise: Promise<GameResult> = Promise<GameResult>(() => {});
+      let mockAnswerSpy: any;
 
       beforeEach(async () => {
         wrapper = mount(<App/>);
@@ -67,18 +70,19 @@ describe('Game App', () => {
         await gameStartPromise;
         wrapper.update();
       });
+
       const customBeforeEach = async (mockGame: Game | undefined = undefined,
                                       returnFinished: boolean= false,
                                       returnInCorrectAnswer: boolean= false) => {
 
-            const mockAnswer = jest.spyOn(gameService, 'answer');
+            mockAnswerSpy = jest.spyOn(gameService, 'answer');
             const fakeResult: GameResult = {...new GameResult(),
                                    allLevelsFinished: returnFinished,
                                    game: mockGame,
                                    inCorrectAnswer: returnInCorrectAnswer };
 
             answerPromise = Promise((r) => r(fakeResult));
-            mockAnswer.mockReturnValue(answerPromise);
+            mockAnswerSpy.mockReturnValue(answerPromise);
       };
 
       const simulateAnswer = async (answer: string) => {
@@ -89,8 +93,16 @@ describe('Game App', () => {
         wrapper.update();
       };
 
-      it('Answering correctly, advances the game to next level', async () => {
+      it('gameService.answer is called with expected params', async () => {
             customBeforeEach({...new Game(), a: 1, b: 1, timeFrameSeconds: 1, level: 'Talented'});
+
+            await simulateAnswer('2');
+
+            expect(mockAnswerSpy).toHaveBeenCalledWith(fakeGame.id, 2);
+      });
+
+      it('Answering correctly, advances the game to next level', async () => {
+            customBeforeEach({...new Game(), id: 'test', a: 1, b: 1, timeFrameSeconds: 1, level: 'Talented'});
 
             await simulateAnswer('12');
 
@@ -108,13 +120,13 @@ describe('Game App', () => {
       });
 
       it('Answering last question correctly, shows game finished message and re-start button', async () => {
-        customBeforeEach(undefined, true);
+            customBeforeEach(undefined, true);
 
-        await simulateAnswer('12');
+            await simulateAnswer('12');
 
-        expect(wrapper.text()).toContain('Game Finished');
-        expect(wrapper.find('button').text()).toBe('Re-Start');
-  });
+            expect(wrapper.text()).toContain('Game Finished');
+            expect(wrapper.find('button').text()).toBe('Re-Start');
+     });
   });
 
 });
