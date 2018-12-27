@@ -4,43 +4,43 @@ using WebApi.Repo;
 
 namespace WebApi.Logic
 {
-    public class ExerciseLogic : IExerciseLogic
+    public class GameEngine : IGameEngine
     {
-        private readonly IExerciseRepo _repo;
+        private readonly IGameRepo _repo;
         private readonly IRandomGenerator _randomGenerator;
         
-        public ExerciseLogic(IExerciseRepo repo, IRandomGenerator randomGenerator)
+        public GameEngine(IGameRepo repo, IRandomGenerator randomGenerator)
         {
             this._repo = repo;
             this._randomGenerator = randomGenerator;
         }
 
-        public Exercise Start()
+        public Game Start()
         {
-            var ex = Exercise.CreateExercise(_randomGenerator.Next(),
+            var ex = Game.CreateGame(_randomGenerator.Next(),
                                              _randomGenerator.Next(),
                                              Constants.InitialTimeFrameSeconds);
             this._repo.Add(ex);
             return ex;
         }
 
-        public ExerciseResult GetNext(Guid id, int answer)
+        public GameResult GetNext(Guid id, int answer)
         {
             var ex = _repo.Get(id);
 
             if (HasAllLevelsFinished(ex))
             {
-                return new ExerciseResult() { AllLevelsFinished = true };
+                return new GameResult() { AllLevelsFinished = true };
             }
 
             if (HasTimeFrameExpired(ex))
             {
-                return new ExerciseResult() { TimeFrameExpired = true };
+                return new GameResult() { TimeFrameExpired = true };
             }
 
             if (!CheckAnswer(ex, answer))
             {
-                return new ExerciseResult() { InCorrectAnswer = true };
+                return new GameResult() { InCorrectAnswer = true };
             }
 
             ex.NumOfConsecutiveCorrectAnswers += 1;
@@ -49,25 +49,25 @@ namespace WebApi.Logic
             ex.StartedAt = DateTime.Now;
             IncrementLevel(ex);
             this._repo.Update(ex);
-            return new ExerciseResult() { Exercise = ex};
+            return new GameResult() { Game = ex};
         }
 
-        private bool HasAllLevelsFinished(Exercise exercise)
+        private bool HasAllLevelsFinished(Game exercise)
         {
-            return exercise.Level == ExerciseLevel.Expert;
+            return exercise.Level == Level.Expert;
         }
 
-        private bool HasTimeFrameExpired(Exercise exercise)
+        private bool HasTimeFrameExpired(Game exercise)
         {
             return DateTime.Now.Subtract(exercise.StartedAt).Seconds > exercise.TimeFrameSeconds;
         }
 
-        private bool CheckAnswer(Exercise exercise, int answer)
+        private bool CheckAnswer(Game exercise, int answer)
         {
             return ((exercise.A + exercise.B) == answer);
         }
 
-        private void IncrementLevel(Exercise exercise)
+        private void IncrementLevel(Game exercise)
         {
             if (exercise.NumOfConsecutiveCorrectAnswers == 3)
             {

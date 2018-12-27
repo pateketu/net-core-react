@@ -17,20 +17,20 @@ namespace WebApi.Tests
    {
        private readonly TestServer _server;
        private readonly Guid _exceptionGeneratingGuid = Guid.NewGuid();
-       private Exercise _mockExercise;
+       private Game _mockExercise;
 
         public WebApiTests()
        {
-           _mockExercise = Exercise.CreateExercise(6, 6, Constants.InitialTimeFrameSeconds);
+           _mockExercise = Game.CreateGame(6, 6, Constants.InitialTimeFrameSeconds);
 
-           var mockRepo = new Mock<IExerciseRepo>();
+           var mockRepo = new Mock<IGameRepo>();
            mockRepo.Setup(setup => setup.Get(It.IsAny<Guid>())).Returns<Guid>(id =>
            {
                if(id.Equals(_exceptionGeneratingGuid)) throw new Exception("Test");
 
                return _mockExercise;
            });
-           mockRepo.Setup(setup => setup.Update(It.IsAny<Exercise>())).Callback<Exercise>(ex => _mockExercise = ex);
+           mockRepo.Setup(setup => setup.Update(It.IsAny<Game>())).Callback<Game>(ex => _mockExercise = ex);
 
            _server = new TestServer(Program.CreateWebHostBuilder(null)
                .UseStartup<Startup>()
@@ -48,12 +48,12 @@ namespace WebApi.Tests
        public async Task Get_StartsGame_AtBeginnerLevel()
        {
            var client = _server.CreateClient();
-           var response = await client.GetAsync("/api/exercise");
+           var response = await client.GetAsync("/api/game");
 
            response.EnsureSuccessStatusCode();
 
-           var exercise = await response.Content.ReadAsAsync<Exercise>();
-           Assert.True(exercise.Level == ExerciseLevel.Beginner);
+           var exercise = await response.Content.ReadAsAsync<Game>();
+           Assert.True(exercise.Level == Level.Beginner);
        }
 
        [Fact]
@@ -61,18 +61,18 @@ namespace WebApi.Tests
        {
            var client = _server.CreateClient();
 
-           async Task<ExerciseResult> PostAnswer()
+           async Task<GameResult> PostAnswer()
            {
                var answer = _mockExercise.A + _mockExercise.B;
-               var response = await client.PostAsync($"/api/exercise/{Guid.NewGuid()}/{answer}", null);
-               return await response.Content.ReadAsAsync<ExerciseResult>();
+               var response = await client.PostAsync($"/api/game/{Guid.NewGuid()}/{answer}", null);
+               return await response.Content.ReadAsAsync<GameResult>();
            }
 
            await PostAnswer();
            await PostAnswer();
            var result = await PostAnswer();
 
-           Assert.True(result.Exercise.Level == ExerciseLevel.Talented);
+           Assert.True(result.Game.Level == Level.Talented);
 
        }
 
@@ -80,7 +80,7 @@ namespace WebApi.Tests
        public async Task Post_WithErrorGeneratingId_Returns500()
        {
            var client = _server.CreateClient();
-           var response = await client.PostAsync($"/api/exercise/{this._exceptionGeneratingGuid}/1", null);
+           var response = await client.PostAsync($"/api/game/{this._exceptionGeneratingGuid}/1", null);
            var apiError = await response.Content.ReadAsAsync<ApiError>();
 
            Assert.True(response.StatusCode == HttpStatusCode.InternalServerError);

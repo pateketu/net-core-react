@@ -1,9 +1,9 @@
 ﻿namespace WebApi.Model
 {
-    public class ExerciseResult
+    public class GameResult
     {
         public bool InCorrectAnswer { get; set; }
-        public Exercise Exercise { get; set; }
+        public Game Game { get; set; }
         public bool AllLevelsFinished {get;set;}
         public bool TimeFrameExpired { get; set; }
     }

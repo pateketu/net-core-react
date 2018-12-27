@@ -1,6 +1,6 @@
 ﻿namespace WebApi.Model
 {
-    public enum ExerciseLevel
+    public enum Level
     {
         Beginner = 0,
         Talented = 1,

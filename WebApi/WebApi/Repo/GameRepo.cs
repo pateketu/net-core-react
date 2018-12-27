@@ -4,20 +4,20 @@ using WebApi.Model;
 
 namespace WebApi.Repo
 {
-    public class ExerciseRepo : IExerciseRepo
+    public class GameRepo : IGameRepo
     {
-        private readonly Dictionary<Guid, Exercise> _inMemoryDb = new Dictionary<Guid, Exercise>();
-        public void Add(Exercise exercise)
+        private readonly Dictionary<Guid, Game> _inMemoryDb = new Dictionary<Guid, Game>();
+        public void Add(Game exercise)
         {
             this._inMemoryDb.Add(exercise.Id, exercise);
         }
 
-        public Exercise Get(Guid id)
+        public Game Get(Guid id)
         {
             return this._inMemoryDb[id];
         }
 
-        public void Update(Exercise exercise)
+        public void Update(Game exercise)
         {
             this._inMemoryDb[exercise.Id] = exercise;
         }

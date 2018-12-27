@@ -8,20 +8,20 @@ using Xunit;
 namespace WebApi.Tests
 {
     
-    public class ExerciseLogicTests
+    public class GameEngineTests
     {
-        private readonly int _timeFrameSecs = 30;
-        readonly ExerciseLogic _sut;
-        readonly Mock<IExerciseRepo> _mockRepo;
+        private const int TimeFrameSecs = 30;
+        private readonly GameEngine _sut;
+        private readonly Mock<IGameRepo> _mockRepo;
 
-        public ExerciseLogicTests()
+        public GameEngineTests()
         {
-            _mockRepo = new Mock<IExerciseRepo>();
+            _mockRepo = new Mock<IGameRepo>();
             var mockRandomGenerator = new Mock<IRandomGenerator>();
             var random = new Random();
             mockRandomGenerator.Setup(r => r.Next()).Returns(random.Next());
 
-            _sut = new ExerciseLogic(_mockRepo.Object, mockRandomGenerator.Object);
+            _sut = new GameEngine(_mockRepo.Object, mockRandomGenerator.Object);
         }
 
         [Fact]
@@ -29,14 +29,14 @@ namespace WebApi.Tests
         {
             var ex = _sut.Start();
 
-            Assert.True(ex.Level == ExerciseLevel.Beginner);
+            Assert.True(ex.Level == Level.Beginner);
             Assert.True(ex.TimeFrameSeconds == Constants.InitialTimeFrameSeconds);
         }
 
         [Fact]
         public void GetNext_WhenExerciseInExpertLevel_ReturnsResultWithAllLevelsFinished()
         {
-            _mockRepo.Setup(r => r.Get(It.IsAny<Guid>())).Returns(new Exercise() { Level = ExerciseLevel.Expert });
+            _mockRepo.Setup(r => r.Get(It.IsAny<Guid>())).Returns(new Game() { Level = Level.Expert });
 
             var result = _sut.GetNext(Guid.NewGuid(), 12);
 
@@ -47,10 +47,10 @@ namespace WebApi.Tests
         [Fact]
         public void GetNext_WhenExerciseHasExpired_ReturnsResultWithTimeFrameExpired()
         {
-            _mockRepo.Setup(r => r.Get(It.IsAny<Guid>())).Returns(new Exercise()
+            _mockRepo.Setup(r => r.Get(It.IsAny<Guid>())).Returns(new Game()
             {
-                Level = ExerciseLevel.Advanced,
-                TimeFrameSeconds = _timeFrameSecs,
+                Level = Level.Advanced,
+                TimeFrameSeconds = TimeFrameSecs,
                 StartedAt = DateTime.Now.Subtract(new TimeSpan(0, 0, 40))
             });
 
@@ -62,12 +62,12 @@ namespace WebApi.Tests
         [Fact]
         public void GetNext_ExerciseWithWrongAnswer_ReturnsResultWithInCorrectAnswer()
         {
-            _mockRepo.Setup(r => r.Get(It.IsAny<Guid>())).Returns(new Exercise()
+            _mockRepo.Setup(r => r.Get(It.IsAny<Guid>())).Returns(new Game()
             {
-                Level = ExerciseLevel.Advanced,
+                Level = Level.Advanced,
                 A = 1,
                 B = 2,
-                TimeFrameSeconds = _timeFrameSecs,
+                TimeFrameSeconds = TimeFrameSecs,
                 StartedAt = DateTime.Now.Subtract(new TimeSpan(0, 0, 20))
             });
 
@@ -79,31 +79,31 @@ namespace WebApi.Tests
         [Fact]
         public void GetNext_CorrectAnswerAndUnExpired_ReturnsResultWithNextExercise()
         {
-            _mockRepo.Setup(r => r.Get(It.IsAny<Guid>())).Returns(new Exercise()
+            _mockRepo.Setup(r => r.Get(It.IsAny<Guid>())).Returns(new Game()
             {
-                Level = ExerciseLevel.Beginner,
+                Level = Level.Beginner,
                 A = 1,
                 B = 2,
-                TimeFrameSeconds = _timeFrameSecs,
+                TimeFrameSeconds = TimeFrameSecs,
                 StartedAt = DateTime.Now.Subtract(new TimeSpan(0, 0, 20))
             });
 
             var result = _sut.GetNext(Guid.NewGuid(), 3);
 
-            Assert.NotNull(result.Exercise);
-            Assert.True(result.Exercise.Level == ExerciseLevel.Beginner);
-            Assert.True(result.Exercise.TimeFrameSeconds == _timeFrameSecs);
+            Assert.NotNull(result.Game);
+            Assert.True(result.Game.Level == Level.Beginner);
+            Assert.True(result.Game.TimeFrameSeconds == TimeFrameSecs);
         }
 
         [Theory]        
-        [InlineData(ExerciseLevel.Beginner, ExerciseLevel.Talented, 30)]
-        [InlineData(ExerciseLevel.Talented, ExerciseLevel.Intermediate, 29)]
-        [InlineData(ExerciseLevel.Intermediate, ExerciseLevel.Advanced, 28)]
-        [InlineData(ExerciseLevel.Advanced, ExerciseLevel.Expert, 27)]
-        public void GetNext_MovesLevelOfExerciseAsExpected(ExerciseLevel currentLevel, ExerciseLevel nextLevel, int currentLevelTimeFrame)
+        [InlineData(Level.Beginner, Level.Talented, 30)]
+        [InlineData(Level.Talented, Level.Intermediate, 29)]
+        [InlineData(Level.Intermediate, Level.Advanced, 28)]
+        [InlineData(Level.Advanced, Level.Expert, 27)]
+        public void GetNext_MovesLevelOfExerciseAsExpected(Level currentLevel, Level nextLevel, int currentLevelTimeFrame)
         {
 
-            var exercise = new Exercise()
+            var exercise = new Game()
             {
                 Level = currentLevel,
                 A = 1,
@@ -113,16 +113,16 @@ namespace WebApi.Tests
             };
             _mockRepo.Setup(r => r.Get(It.IsAny<Guid>())).Returns(exercise);
 
-            ExerciseResult result = null;
+            GameResult result = null;
             Guid id = Guid.NewGuid();
             for (int i = 0; i < 3; i++)
             {
                 result = _sut.GetNext(id, (exercise.A + exercise.B));
-                exercise = result.Exercise;
+                exercise = result.Game;
             }
 
-            Assert.True(result != null && result.Exercise.Level == nextLevel);
-            Assert.True(result.Exercise.TimeFrameSeconds == currentLevelTimeFrame - 1);
+            Assert.True(result != null && result.Game.Level == nextLevel);
+            Assert.True(result.Game.TimeFrameSeconds == currentLevelTimeFrame - 1);
         }
     }
 }

@@ -10,17 +10,17 @@ using WebApi.Model;
 namespace WebApi.Controllers
 {
     [Route("api/[controller]")]
-    public class ExerciseController : Controller
+    public class GameController : Controller
     {
-        private readonly IExerciseLogic _exerciseLogic;
+        private readonly IGameEngine _exerciseLogic;
 
-        public ExerciseController(IExerciseLogic exerciseLogic)
+        public GameController(IGameEngine exerciseLogic)
         {
             this._exerciseLogic = exerciseLogic;
         }
         // GET api/exercise
         [HttpGet]
-        public Exercise GetExercise()
+        public Game GetExercise()
         {
             return _exerciseLogic.Start();
         }
@@ -28,7 +28,7 @@ namespace WebApi.Controllers
 
         // POST api/exercise
         [HttpPost("{id}/{answer}")]
-        public ExerciseResult PostAnswer(Guid id, int answer)
+        public GameResult PostAnswer(Guid id, int answer)
         {
             return this._exerciseLogic.GetNext(id, answer);
         }

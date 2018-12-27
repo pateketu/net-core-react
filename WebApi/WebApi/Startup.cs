@@ -39,8 +39,8 @@ namespace WebApi
             
             services.AddMvc();         
             
-            services.AddSingleton<IExerciseRepo, ExerciseRepo>();
-            services.AddScoped<IExerciseLogic, ExerciseLogic>();
+            services.AddSingleton<IGameRepo, GameRepo>();
+            services.AddScoped<IGameEngine, GameEngine>();
             services.AddSingleton<IRandomSeeder, RandomSeeder>();
             services.AddScoped<IRandomGenerator, RandomGenerator>();
             this._logger.LogInformation("Configured Services.");
