@@ -11,18 +11,18 @@ export default class Answer extends React.PureComponent<IAnswerProps, IAnswerSta
 
     }
     public render() {
-        return  <div>
-            <AnswerInput a={this.props.a}
-                         b={this.props.b}
-                         onAnswer={(answer: number) => {
-                             this.setState({answer});
-                        }}
-            ></AnswerInput>
-            {this.state && isNaN(this.state.answer)
-                && <div className="invalid">Please provide a valid number </div>}
-            <button disabled={!this.state || isNaN(this.state.answer)}
-                onClick={() => {this.props.onAnswer(this.state.answer);  }}>Asnwer</button>
-        </div>;
+        return  <form onSubmit={() => {this.props.onAnswer(this.state.answer);  }}>
+                    <AnswerInput a={this.props.a}
+                                b={this.props.b}
+                                onAnswer={(answer: number) => {
+                                    this.setState({answer});
+                                }}
+                    ></AnswerInput>
+                    {this.state && isNaN(this.state.answer)
+                        && <div className="invalid">Please provide a valid number </div>}
+                    <button type="submit" disabled={!this.state || isNaN(this.state.answer)}
+                        onClick={() => {this.props.onAnswer(this.state.answer);  }}>Asnwer</button>
+                </form>;
     }
 
 }

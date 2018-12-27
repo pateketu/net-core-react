@@ -1,7 +1,9 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`Answer  Component Renders expected html mark-up 1`] = `
-<div>
+<form
+  onSubmit={[Function]}
+>
   <div>
     <div
       className="equation"
@@ -26,8 +28,9 @@ exports[`Answer  Component Renders expected html mark-up 1`] = `
   <button
     disabled={true}
     onClick={[Function]}
+    type="submit"
   >
     Asnwer
   </button>
-</div>
+</form>
 `;

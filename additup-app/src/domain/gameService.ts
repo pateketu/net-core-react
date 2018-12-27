@@ -5,7 +5,7 @@ import { GameResult } from './gameResult';
 
 export async function start() {
     return Promise<Game>((resolve) => {
-        fetch('http://localhost:55999/api/game')
+        fetch('http://localhost:56000/api/game')
             .then((response) => response.json())
             .then((game: Game) => {
                 resolve(game);
@@ -15,7 +15,7 @@ export async function start() {
 
 export async function answer(id: string, ans: number) {
     return Promise<GameResult>((resolve) => {
-        fetch(new Request(`http://localhost:55999/api/game/${id}/${ans}`, { method: 'post' }))
+        fetch(new Request(`http://localhost:56000/api/game/${id}/${ans}`, { method: 'post' }))
              .then((response) => response.json())
              .then((gameResult: GameResult) => {
                 resolve(gameResult);

@@ -34,4 +34,17 @@ describe('Answer  Component', () => {
         expect(result).toBe(value);
     });
 
+    it('Hitting enter fires onAnswer with expected answer value', () => {
+        let result: number = 0;
+        const value: number = 20;
+
+        const wrapper = mount(<Answer a={1} b={2}
+            onAnswer={(answer: number ) => { result = answer; }}></Answer>);
+
+        wrapper.find('input').simulate('change', {target: {value: String(value)}});
+        wrapper.find('form').simulate('submit');
+
+        expect(result).toBe(value);
+    });
+
 });
