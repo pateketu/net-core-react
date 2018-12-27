@@ -64,7 +64,8 @@ namespace WebApi
             }
 
             app.ConfigExceptionHandler(loggerFactory.CreateLogger("UnhandledExceptionHandler"));
-
+            app.UseDefaultFiles();
+            app.UseStaticFiles();
             app.UseMvc();
             
         }
