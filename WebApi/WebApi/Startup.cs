@@ -25,16 +25,20 @@ namespace WebApi
         {
             services.AddCors(options =>
             {
-                // for the purpose of the exercise allowing everything!, usually not a good practice for real systems
                 options.AddPolicy("AllowAll",
                     builder =>
                     {
                         builder
-                        .AllowAnyOrigin()
-                        .AllowAnyMethod()
-                        .AllowAnyHeader()
-                        .AllowCredentials();
+                            .AllowAnyOrigin()
+                            .WithHeaders("GET", "POST");
                     });
+
+                options.AddPolicy("AllowAzure", builder =>
+                {
+                    builder
+                        .WithOrigins("http://*.azurewebsites.net")
+                        .WithHeaders("GET", "POST");
+                });
             });
             
             services.AddMvc();         
@@ -52,9 +56,12 @@ namespace WebApi
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
+                app.UseCors("AllowAll");
             }
-
-            app.UseCors("AllowAll");
+            else
+            {
+                app.UseCors("AllowAzure");
+            }
 
             app.ConfigExceptionHandler(loggerFactory.CreateLogger("UnhandledExceptionHandler"));
 
