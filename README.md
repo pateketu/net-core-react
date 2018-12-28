@@ -24,8 +24,8 @@ Exercise creation and score management should be done on the server.
 
 ### High Level design
 
--- All of the Game logic (checking of time, checking of answer, moving levels etc) is in the back-end
--- Each gaming session is identified by Id (GUID), Calling GET API will start the game and create a new Guid
--- There is an InMemoery DB which holds the data
--- Answers are send to POST API, which returns with a Response (failed, time elapsed and the next exercise in case of valid answer)
--- Allowed time for a level is provided by server (starts with 20 sec for first level) but actual timer showing the countdown is in the React App, there will be some latency between client and server communication when user submits the answer hence user could lose few milliseconds theoretically.
+- All of the Game logic (checking of time, checking of answer, moving levels etc) is in the back-end
+- Each gaming session is identified by Id (GUID), Calling GET API will start the game and create a new Guid
+- There is an InMemoery DB which holds the data
+- Answers are send to POST API, which returns with a Response (failed, time elapsed and the next exercise in case of valid answer)
+- Allowed time for a level is provided by server (starts with 20 sec for first level) but actual timer showing the countdown is in the React App, there will be some latency between client and server communication when user submits the answer hence user could lose few milliseconds theoretically.
