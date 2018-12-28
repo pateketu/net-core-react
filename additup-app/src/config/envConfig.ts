@@ -6,12 +6,12 @@ const localhost = {
 
 const prod = {
     api: {
-        url: 'http://localhost:56000',
+        url: '',
     },
 };
 
-const config = process.env.REACT_APP_GAME_ENV === 'prod'
-  ? prod
-  : localhost;
+const config = process.env.REACT_APP_GAME_ENV === 'local'
+  ? localhost
+  : prod;
 
 export default config;
