@@ -35,9 +35,7 @@ namespace WebApi
 
                 options.AddPolicy("AllowAzure", builder =>
                 {
-                    builder
-                        .WithOrigins("http://*.azurewebsites.net")
-                        .WithHeaders("GET", "POST");
+                    builder.WithHeaders("GET", "POST");
                 });
             });
             
