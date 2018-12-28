@@ -1,0 +1,3 @@
+### Notes on WebAPi
+
+-- Too meet the requirement of unique equation to two users, need to reliably generate a Random number, approach used in the test is from https://blogs.msdn.microsoft.com/pfxteam/2009/02/19/getting-random-numbers-in-a-thread-safe-way/ , the one with using a lock around a global Seeder and initialize a new Random generator for each  thread (i.e. each request). This has worked for small number of users but have seen 0 random number being generated under load (some-thing going wrong with thread locking may be), there is a unit test attempting to simulate the scenario of multiple threads generating Radom number at the same time
