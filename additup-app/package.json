@@ -13,8 +13,8 @@
     "typescript": "3.2.2"
   },
   "scripts": {
-    "start": "set REACT_APP_GAME_ENV=local && react-scripts start",
-    "build": "set REACT_APP_GAME_ENV_ENV=prod && react-scripts build && ncp ./build ../WebApi/WebApi/wwwroot",
+    "start": "set REACT_APP_GAME_ENV=local&& react-scripts start",
+    "build": "set REACT_APP_GAME_ENV_ENV=prod&& react-scripts build && ncp ./build ../WebApi/WebApi/wwwroot",
     "test": "react-scripts test",
     "eject": "react-scripts eject"
   },
