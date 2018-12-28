@@ -1,5 +1,6 @@
 ## AddItUp
 Live Url: http://additup.azurewebsites.net
+
 The objective of this exercise is to create a simple website that offers games to train your brain.
 The 1st game to implement is AddItUp - a simple addition online game.
 
